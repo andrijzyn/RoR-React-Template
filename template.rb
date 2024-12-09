@@ -14,6 +14,7 @@ def add_gems
   gem 'friendly_id', '~> 5.4', '>= 5.4.2'
   gem 'cssbundling-rails'
   gem 'name_of_person'
+  gem 'rubocop', group: 'development', require: false
   gem 'sidekiq', '~> 6.5', '>= 6.5.4'
   gem 'stripe'
 end

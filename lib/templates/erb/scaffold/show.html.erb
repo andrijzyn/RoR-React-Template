@@ -1,23 +1,19 @@
-<div class="max-w-3xl mx-auto px-4">
-  <div class="flex items-center justify-between">
-    <h1 class="flex-1 font-bold text-3xl"><%= singular_table_name.capitalize %></h1>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="flex-grow-1 font-weight-bold display-4"><%= singular_table_name.capitalize %></h1>
 
-    <div class="flex-wrap lg:flex items-center lg:space-x-3">
-      <%%= link_to <%= index_helper %>_path, class: button_class(theme: "transparent") do %>
-      All <%= plural_table_name.capitalize %>
-      <%% end %>
-      <%%= link_to edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: button_class(theme:"primary") do %>
-      Edit
-      <%% end %>
+    <div class="d-flex flex-wrap">
+      <%= link_to 'All ' + plural_table_name.capitalize, send("#{index_helper}_path"), class: "btn btn-link" %>
+      <%= link_to 'Edit', edit_<%= singular_table_name %>_path(@<%= singular_table_name %>), class: "btn btn-primary" %>
     </div>
   </div>
 
-  <ul class="text-slate-700">
-    <%- attributes.each do |attribute| -%>
-      <li>
-        <p class="font-semibold"><%= attribute.human_name %>:</p>
-        <p><%%= @<%= singular_table_name %>.<%= attribute.name %> %></p>
+  <ul class="list-unstyled text-dark">
+    <% attributes.each do |attribute| %>
+      <li class="mb-2">
+        <p class="font-weight-bold"><%= attribute.human_name %>:</p>
+        <p><%= @<%= singular_table_name %>.<%= attribute.name %> %></p>
       </li>
-    <%- end -%>
+    <% end %>
   </ul>
 </div>
