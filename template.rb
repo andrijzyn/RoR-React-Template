@@ -19,10 +19,26 @@ def add_gems
   gem 'stripe'
 end
 
-def add_tailwind
-  rails_command "css:install:tailwind"
-  # remove tailwind config that gets installed and swap for custom config
-  remove_file "tailwind.config.js"
+# noinspection CssUnknownTarget
+def add_bootstrap
+  # Install Bootstrap via npm
+  run "yarn add bootstrap @popperjs/core"
+
+  # Remove default styles if present
+  remove_file "app/assets/stylesheets/application.css"
+
+  # Create a new stylesheet to use Bootstrap
+  create_file "app/assets/stylesheets/application.scss", <<~CSS
+    @import "bootstrap";
+  CSS
+
+  # Connect JS Bootstrap
+  inject_into_file "app/javascript/application.js", <<~JS, after: "// Entry point for the build script in your package.json\n"
+    import "bootstrap";
+  JS
+
+  # Notify user about successful installation
+  puts "Bootstrap installed successfully!"
 end
 
 
@@ -78,20 +94,13 @@ def add_friendly_id
   generate "friendly_id"
 end
 
-def add_tailwind_plugins
-  run "yarn add -D @tailwindcss/typography @tailwindcss/forms @tailwindcss/aspect-ratio @tailwindcss/line-clamp"
-
-  copy_file "tailwind.config.js"
-end
-
 # Main setup
 source_paths
 
 add_gems
 
 after_bundle do
-  add_tailwind
-  add_tailwind_plugins
+  add_bootstrap
   add_storage_and_rich_text
   add_users
   add_sidekiq
